@@ -363,19 +363,21 @@ class RandomTranslate(object):
         self.interp = interp
         self.lazy = lazy
 
-    def __call__(self, *inputs):
+    def __call__(self, *inputs, random_height=None, random_width=None):
         # height shift
-        random_height = random.uniform(-self.height_range, self.height_range)
+        if random_height is None:
+            random_height = random.uniform(-self.height_range, self.height_range)
         # width shift
-        random_width = random.uniform(-self.width_range, self.width_range)
+        if random_width is None:
+            random_width = random.uniform(-self.width_range, self.width_range)
 
         if self.lazy:
             return Translate([random_height, random_width], 
-                             lazy=True)(inputs[0])
+                             lazy=True)(inputs[0]), random_height, random_width
         else:
             outputs = Translate([random_height, random_width],
                                  interp=self.interp)(*inputs)
-            return outputs
+            return outputs, random_height, random_width
 
 
 class RandomChoiceTranslate(object):
