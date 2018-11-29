@@ -490,7 +490,7 @@ class Translate(object):
                                        mode=interp[idx],
                                        center=True)
                 outputs.append(input_tf)
-            return outputs if idx > 1 else outputs[0]
+            return outputs
 
 
 class RandomShear(object):
